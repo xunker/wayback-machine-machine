@@ -29,18 +29,10 @@ var app = express();
 var transformerFunction = function (data, req, res) {
   // return data + "\n // an additional line at the end of every file";
   // return "WOOT";
-
-  console.log("Status Code: " + res.statusCode);
+  console.log("Outgoing Content-Type: " + res.getHeader('content-type'));
+  console.log("Outgoing Status Code: " + res.statusCode);
   if (!res.getHeader('content-type').match(/text/)) {
     return data;
-  }
-
-  if (res.getHeader('content-type').match(/\;/)) {
-    console.log("T: " + res.getHeader('content-type') + ' => ' + res.getHeader('content-type').split(';')[0]);
-    // Old browsers don't content-type headers like "text/html; charset=utf-8"
-    // Remove everything after the first semicolon
-
-    res.writeHead(res.statusCode, { 'Content-Type': res.getHeader('content-type').split(';')[0]});
   }
 
   /*

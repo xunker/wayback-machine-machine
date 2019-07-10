@@ -25,12 +25,11 @@ node app --date 2006-03-01 # View the web as of Mar 1st, 2006
 ```
 
 Configure your browser to use an *HTTP Proxy* at `localhost:4080`.
-
 Enjoy the information superhighway!
 
 Changes from Upstream
 ---------------------
-* Caches data to disk to the cache persists between runs, so it will ne nicer to the wayback machine
+* Caches API calls to disk to the cache persists between runs, so it will ne nicer to the wayback machine
 * Rewrites Content-Type response headers that look like `<mime-type>; encoding=utf8` in to just `<mime-type>` for compatibility with older browsers
 * Adds `Host` request header for compatibility with HTTP/1.0 browsers
   * Added in HTTP/1.1. May not be important since we're only talking to Wayback/Archive, but what the hell
@@ -46,12 +45,13 @@ Need
 * Update docs
 
 Old Browser/Computer support (Netscape 1.0, HTTP/1.0)
-* [ ] Clean up code that fixes 'Content-Type' responses for remote content
+* [ ] cache page/file responses as well as api responses
+* [X] Clean up code that fixes 'Content-Type' responses for remote content
   * Share code with `send(<error>)` code if we can't eliminate the need
-* [ ] Clean up code that fixes 'Content-Type' responses from internal 404/500 errors
+* [X] Clean up code that fixes 'Content-Type' responses from internal 404/500 errors
   * Hacked working, but the better option would be to change the `send(<error>)` to send the correct style of header in the first place
   * Share code with other fix if we can't eliminate the need
-* [ ]Clean up `Host` header injection
+* [ ] Clean up `Host` header injection
   * [ ] Don't add it if already present
   * [ ] Refactor code, made it better
   * [ ] Add tests
