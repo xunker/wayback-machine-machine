@@ -26,11 +26,36 @@ var http = require('http');
 var express = require('express');
 var app = express();
 
-var transformerFunction = function (data, req, res) {
+/**
+ * Doesn't change the request or response, just reports values in them if
+ * debugging is enabled.
+ *
+ * @param {Stream} data Response body
+ * @param {ServerRequest} req The incoming HTTP request object
+ * @param {ServerResponse} res The outgoing HTTP response object
+ * @returns {string|Steam} New or changed response body
+ */
+var debugTransactionDetails = function (data, req, res) {
+  log('=== Begin Transaction Details:');
+  log("Outgoing Content-Type: " + res.getHeader('content-type'));
+  log("Outgoing Status Code: " + res.statusCode);
+  log('=== End Transaction Details:');
+  return data;
+}
+
+/**
+ * Removes the HTML/CSS/JS injected by Wayback. Old browsers can't understand
+ * it anyway, and old computers choke on the sheer amount of data returned.
+ *
+ * @param {Stream} data Response body
+ * @param {ServerRequest} req The incoming HTTP request object
+ * @param {ServerResponse} res The outgoing HTTP response object
+ * @returns {string|Steam} New or changed response body
+ */
+var removeWaybackDecoration = function (data, req, res) {
   // return data + "\n // an additional line at the end of every file";
   // return "WOOT";
-  console.log("Outgoing Content-Type: " + res.getHeader('content-type'));
-  console.log("Outgoing Status Code: " + res.statusCode);
+
   if (!res.getHeader('content-type').match(/text/)) {
     return data;
   }
@@ -58,17 +83,12 @@ var transformerFunction = function (data, req, res) {
     body = body.replace(/<head\>.+<!-- End Wayback Rewrite JS Include --\>/s, '<head>')
   }
 
-  // body = body.replace(/<script src="\/\/archive.org\/includes\/analytics.js\?v=.+" type="text\/javascript"\><\/script\>/, '');
-  // body = body.replace(/<script type="text\/javascript">window.addEventListener.+?<\/script\>/, '')
   body = body.replace(/<script type="text\/javascript" src="\/_static.+?<\/script\>/g, '');
-  // body = body.replace(/<link rel="stylesheet" type="text\/css" href="\/_static.+?\/>/g, '');
-  // body = body.replace(/WB_wombat_Init.+\n/, '');
-  // body = body.replace(/__wbhack.init.+\n/, '');
-  // body = body.replace(/<script type="text\/javascript">\n<\/script>\n/sg, '');
   return body;
 };
 
-app.use(transformerProxy(transformerFunction));
+app.use(transformerProxy(debugTransactionDetails));
+app.use(transformerProxy(removeWaybackDecoration));
 app.use(require('cookie-parser')());
 app.use(proxyToWayback.bind(null, {date: date.replace(/-/g, '')}));
 
