@@ -56,7 +56,7 @@ Old Browser/Computer support (Netscape 1.0, HTTP/1.0)
   * [ ] Refactor code, made it better
   * [ ] Add tests
 * [ ] Clean up code that removes the decorations that Wayback injects
-* [ ] Proxy image requests that return a redirect
+* [X] Proxy image requests that return a redirect
   * Netscape 1.0 can't handle it when an `<img>` tag returns a redirect, so proxy those instead
 * [ ] Command-line switch to set Netscape 1.0 compatibility mode
   * option to turn on/off Content-type fixing, Response Cleanup, Host header, etc, individually or all at once using a compund flag
@@ -64,6 +64,7 @@ Old Browser/Computer support (Netscape 1.0, HTTP/1.0)
 
 Nice-to-have
 ============
+* Convert GIF89a to GIF87a (Netscape 1.0 may have a problem with them)
 * Tests
 * Make `queryURL()` not have to use *async* in order for node-persist to work.
 * Make persistant cache be optional via CLI switch

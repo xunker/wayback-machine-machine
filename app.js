@@ -37,6 +37,7 @@ var app = express();
  */
 var debugTransactionDetails = function (data, req, res) {
   log('=== Begin Transaction Details:');
+  log("Incoming URL: " + req.url);
   log("Outgoing Content-Type: " + res.getHeader('content-type'));
   log("Outgoing Status Code: " + res.statusCode);
   log('=== End Transaction Details:');
