@@ -8,12 +8,39 @@ var args = require('yargs')
   .example('$0 --date 2006-03-01', 'View the web as if it were March 1st, 2006')
   .default('port', '4080')
   .default('date', '2006-03-01')
+  .default('image-colors', undefined, "Reduce image color depth to this number")
+  .alias('image-colours', 'image-colors')
+  .boolean('gif87a', "Convert all .gif images to GIF87a format")
+  .boolean('debug', 'debug/verbose mode')
+  .boolean('netscape1', 'Netscape 1.0 Mode (--gif87a, --no-chunk, --proxy-image-redirects)')
+  .alias('ns1', 'netscape1')
+  .boolean('ignore-user-agent', 'Ignore client User Agent string for automatic config')
+  .boolean('ignore-http-version', 'Ignore HTTP version header passed by client')
+  .boolean('http1', 'Force HTTP/1.0 requests')
+  .alias('verbose', 'debug')
+  .alias('v', 'debug')
   .argv;
 
 // Get options
+var config = {
+  gif87a: args.gif87a
+};
 var date = args.date;
 var port = args.port;
 var log = require('./lib/log').init(args.debug).log;
+if (parseInt(args['image-colors']) > 0) {
+  config['imageColors'] = parseInt(args['image-colors']);
+} else {
+  config['imageColors'] = 0;
+}
+
+if (args.netscape1) {
+  config['ignore-user-agent'] = true;
+  config['ignore-http-version'] = true;
+  config['http1'] = true;
+  config['gif87a'] = true;
+  config['imageColors'] = 16;
+}
 
 // Print banner & Usage
 var ascli = require('ascli').app(require('./package').name.replace(/-/g, '  '));
@@ -110,17 +137,31 @@ var convertGif8x = function (data, req, res) {
     return data;
   }
 
-  log("Image is GIF that will be converted")
-
   return new Promise(function (resolve, reject) {
-    return gm(data).out('gif87:-').colors(2).toBuffer('gif87', function (err, buffer) {
-      console.log('Converting GIF to GIF87a format, lowering bit depth');
+    log("Processing GIF image")
+    var img = gm(data);
+
+
+    if (config['imageColors'] > 0) {
+      log("\tColors will be changed to", config['imageColors']);
+      img = img.colors(config['imageColors']);
+    }
+
+    var cb = function (err, buffer) {
       if (err) {
         reject(err);
       } else {
         resolve(buffer);
       }
-    });
+    };
+
+    if (config.gif87a) {
+      console.log("\tConverting to GIF87a format");
+      img = img.out('gif87:-');
+      return img.toBuffer('gif87', cb);
+    } else {
+      return img.toBuffer(cb);
+    }
   });
 }
 
