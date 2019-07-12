@@ -29,6 +29,13 @@
     "msee": "~0.1.1",
     "ascli": "~0.3.0",
     "transformer-proxy": ">=0.3.5",
-    "node-persist": ">= 3.0.5"
+    "node-persist": ">= 3.0.5",
+    "gm": ">= 1.23.1",
+    "through": ">= 2.3.8"
+  },
+  "comments": {
+    "dependencies": "\"imagemagick-native\": \"abetomo/node-imagemagick-native#support_nodejs12\"",
+    "repository": "\"imagemagick-native\": \"elad/node-imagemagick-native#master\"",
+    "license": ">= 1.9.3"
   }
 }
