@@ -39,7 +39,8 @@ if (args.netscape1) {
   config['ignore-http-version'] = true;
   config['http1'] = true;
   config['gif87a'] = true;
-  config['imageColors'] = 16;
+  if (!config['imageColors'])
+    config['imageColors'] = 16;
 }
 
 // Print banner & Usage
