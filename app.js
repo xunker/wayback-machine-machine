@@ -27,7 +27,7 @@ var proxyToWayback = require('./lib/proxy');
 var http = require('http');
 var express = require('express');
 var app = express();
-var fs = require('fs'); // temp removeme
+
 /**
  * Doesn't change the request or response, just reports values in them if
  * debugging is enabled.
@@ -57,14 +57,6 @@ var debugTransactionDetails = function (data, req, res) {
     return out;
   })());
   log('=== End Transaction Details:');
-
-  fs.writeFile('./test.gif', data, function (err) {
-    if (err) {
-      return console.log(err);
-    }
-
-    console.log("The file was saved!");
-  });
 
   return data;
 }
