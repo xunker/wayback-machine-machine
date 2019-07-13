@@ -2,56 +2,20 @@
 var transformerProxy = require('transformer-proxy');
 
 var gm = require('gm');
-
-var args = require('yargs')
-  .usage('Teleport your browser back in time.\nUsage: $0 [date] --port [num] --debug')
-  .example('$0 --date 2006-03-01', 'View the web as if it were March 1st, 2006')
-  .default('port', '4080')
-  .default('date', '2006-03-01')
-  .default('image-colors', undefined, "Reduce image color depth to this number")
-  .alias('image-colours', 'image-colors')
-  .boolean('gif87a', "Convert all .gif images to GIF87a format")
-  .boolean('debug', 'debug/verbose mode')
-  .boolean('netscape1', 'Netscape 1.0 Mode (--gif87a, --no-chunk, --proxy-image-redirects)')
-  .alias('ns1', 'netscape1')
-  .boolean('ignore-user-agent', 'Ignore client User Agent string for automatic config')
-  .boolean('ignore-http-version', 'Ignore HTTP version header passed by client')
-  .boolean('http1', 'Force HTTP/1.0 requests')
-  .alias('verbose', 'debug')
-  .alias('v', 'debug')
-  .argv;
-
-// Get options
-var config = {
-  gif87a: args.gif87a
-};
-var date = args.date;
-var port = args.port;
-var log = require('./lib/log').init(args.debug).log;
-if (parseInt(args['image-colors']) > 0) {
-  config['imageColors'] = parseInt(args['image-colors']);
-} else {
-  config['imageColors'] = 0;
-}
-
-if (args.netscape1) {
-  config['ignore-user-agent'] = true;
-  config['ignore-http-version'] = true;
-  config['http1'] = true;
-  config['gif87a'] = true;
-  if (!config['imageColors'])
-    config['imageColors'] = 16;
-}
+var config = require('./config');
+var log = require('./lib/log').init(config.debug).log;
 
 // Print banner & Usage
 var ascli = require('ascli').app(require('./package').name.replace(/-/g, '  '));
 ascli.banner(ascli.appName.rainbow.bold);
 var msee = require('msee');
 var usage = msee.parseFile(process.cwd() + '/USAGE.md');
-console.log(usage.replace(/<port>/g, port).replace(/<date>/g, new Date(date).toLocaleDateString()));
+// console.log(usage.replace(/<port>/g, port).replace(/<date>/g, new Date(date).toLocaleDateString()));
+console.log(usage.replace(/<port>/g, config.port).replace(/<date>/g, new Date(config.date).toLocaleDateString()));
 
 // Start local proxy server.
 var proxyToWayback = require('./lib/proxy');
+proxyToWayback.config = config;
 var http = require('http');
 var express = require('express');
 var app = express();
@@ -143,9 +107,9 @@ var convertGif8x = function (data, req, res) {
     var img = gm(data);
 
 
-    if (config['imageColors'] > 0) {
-      log("\tColors will be changed to", config['imageColors']);
-      img = img.colors(config['imageColors']);
+    if (config.imageColors > 0) {
+      log("\tColors will be changed to", config.imageColors);
+      img = img.colors(config.imageColors);
     }
 
     var cb = function (err, buffer) {
@@ -170,11 +134,11 @@ app.use(transformerProxy(debugTransactionDetails));
 app.use(transformerProxy(convertGif8x));
 app.use(transformerProxy(removeWaybackDecoration));
 app.use(require('cookie-parser')());
-app.use(proxyToWayback.bind(null, {date: date.replace(/-/g, '')}));
+app.use(proxyToWayback.bind(null));
 
 app.on('error', function(err) {
   console.error("Unable to open port:", port);
 });
 
-app.listen(port);
+app.listen(config.port);
 

@@ -21,7 +21,8 @@ Notes on Browsers
 
 * Netscape 4.77 Mac
   * Sends HTTP/1.0 (Ok, this is getting ridiculous now)
-  {"proxy-connection":"Keep-Alive","user-agent":"Mozilla/4.77C-CCK-MCD {C-UDP; EBM-APPLE} (Macintosh; U; PPC)","host":"webcrawler.com","accept":"image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*","accept-encoding":"gzip","accept-charset":"iso-8859-1,*,utf-8"}
+  {"proxy-connection":"Keep-Alive","user-agent":"Mozilla/4.77C-CCK-MCD {C-UDP; EBM-APPLE} (Macintosh; U; PPC)","host":"webcrawler.com","accept":"image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*","accept-encoding":"gzip","accept-charset":"iso-8859-1,*,utf-8"}ccccccidvvrrcrkdllfglckhrkvukjcedhuketljkldk
+
 
 * Internet Explorer 2.1 Mac German
   * Sends HTTP/1.1
