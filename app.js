@@ -2,7 +2,7 @@
 var transformerProxy = require('transformer-proxy');
 
 var gm = require('gm');
-var config = require('./config')();
+global.config = require('./config')(); // Globals are evil!
 var log = require('./lib/log').init(config.debug).log;
 
 // Print banner & Usage
@@ -15,7 +15,6 @@ console.log(usage.replace(/<port>/g, config.port).replace(/<date>/g, new Date(co
 
 // Start local proxy server.
 var proxyToWayback = require('./lib/proxy');
-proxyToWayback.config = config;
 var http = require('http');
 var express = require('express');
 var app = express();
