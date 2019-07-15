@@ -1,6 +1,10 @@
 'use strict';
-module.exports = function commandLineArgs() {
-  var args = require('yargs')
+module.exports = function(yargs) {
+
+  if (!yargs)
+    yargs = require('yargs');
+
+  var args = yargs
     .usage('Teleport your browser back in time.\nUsage: $0 [date] --port [num] --debug')
     .example('$0 --date 2006-03-01', 'View the web as if it were March 1st, 2006')
     .default('port', '4080')
@@ -49,4 +53,4 @@ module.exports = function commandLineArgs() {
   }
 
   return args;
-}();
+}

@@ -2,7 +2,7 @@
 var transformerProxy = require('transformer-proxy');
 
 var gm = require('gm');
-var config = require('./config');
+var config = require('./config')();
 var log = require('./lib/log').init(config.debug).log;
 
 // Print banner & Usage
