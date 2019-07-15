@@ -20,6 +20,7 @@ module.exports = function(yargs) {
     .boolean('ignore-user-agent', 'Ignore client User Agent string for automatic config')
     .boolean('ignore-http-version', 'Ignore HTTP version header passed by client')
     .boolean('proxy-image-redirects', 'If image URL returns redirect, return image data instead of redirect response')
+    .boolean('simplify-content-type', 'Simplify content-type response headers')
     .boolean('http1', 'Force HTTP/1.0 requests')
     .boolean('http11', 'Force HTTP/1.1 requests')
     .alias('verbose', 'debug')
@@ -39,6 +40,7 @@ module.exports = function(yargs) {
     args.ignoreHttpVersion = true;
     args.http1 = true;
     args.gif87a = true;
+    args.simplifyContentType = true;
     args.proxyImageRedirects = true;
     if (!args.imageColors)
       args.imageColors = 16;
@@ -47,6 +49,7 @@ module.exports = function(yargs) {
   if (args.netscape2) {
     args.ignoreUserAgent = true;
     args.ignoreHttpVersion = true;
+    args.simplifyContentType = true;
     args.http1 = true;
     if (!args.imageColors)
       args.imageColors = 16;

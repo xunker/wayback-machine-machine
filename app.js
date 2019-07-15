@@ -10,7 +10,6 @@ var ascli = require('ascli').app(require('./package').name.replace(/-/g, '  '));
 ascli.banner(ascli.appName.rainbow.bold);
 var msee = require('msee');
 var usage = msee.parseFile(process.cwd() + '/USAGE.md');
-// console.log(usage.replace(/<port>/g, port).replace(/<date>/g, new Date(date).toLocaleDateString()));
 console.log(usage.replace(/<port>/g, config.port).replace(/<date>/g, new Date(config.date).toLocaleDateString()));
 
 // Start local proxy server.
