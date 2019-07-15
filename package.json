@@ -23,7 +23,8 @@
   "homepage": "https://github.com/STRML/wayback-machine-machine",
   "devDependencies": {
     "jasmine": "~3.4.0",
-    "nodemon": "~1.19.1"
+    "nodemon": "~1.19.1",
+    "node-inspect": ">=0"
   },
   "dependencies": {
     "request": "~2.34.0",

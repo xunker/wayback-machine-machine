@@ -3,13 +3,12 @@ Notes on Browsers
 
 * Netscape 1.12 Mac
   * Sends HTTP/1.0
-  {"user-agent":"Mozilla/1.12(Macintosh; I; PPC)","accept":"*/*, image/gif, image/x-xbitmap, image/jpeg"}
-  * IMPORTANT: Running any newer version of Netscape on the same Mac will completely break the 1.12 config/installation and it won't be able to display any content.
+  * {"user-agent":"Mozilla/1.12(Macintosh; I; PPC)","accept":"*/*, image/gif, image/x-xbitmap, image/jpeg"}
+  * IMPORTANT: Running any newer version of Netscape on the same Mac will completely break the 1.12 config/installation and it won't be able to display any content. Delete System Folder -> Preferences -> Netscape f to restore.
 
 * Netscape 2.02 Mac
   * Sends HTTP/1.0 (unexpected!)
-  {"proxy-connection":"Keep-Alive","user-agent":"Mozilla/2.0 (Macintosh; I; PPC)","host":"webcrawler.com","accept":"image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, */*"}
-
+  * {"proxy-connection":"Keep-Alive","user-agent":"Mozilla/2.0 (Macintosh; I; PPC)","host":"webcrawler.com","accept":"image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, */*"}
 
 * Netscape 3.03 Gold Mac
   * Sends HTTP/1.0 (very unexpected!)
@@ -21,13 +20,15 @@ Notes on Browsers
 
 * Netscape 4.77 Mac
   * Sends HTTP/1.0 (Ok, this is getting ridiculous now)
-  {"proxy-connection":"Keep-Alive","user-agent":"Mozilla/4.77C-CCK-MCD {C-UDP; EBM-APPLE} (Macintosh; U; PPC)","host":"webcrawler.com","accept":"image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*","accept-encoding":"gzip","accept-charset":"iso-8859-1,*,utf-8"}ccccccidvvrrcrkdllfglckhrkvukjcedhuketljkldk
-
+  {"proxy-connection":"Keep-Alive","user-agent":"Mozilla/4.77C-CCK-MCD {C-UDP; EBM-APPLE} (Macintosh; U; PPC)","host":"webcrawler.com","accept":"image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*","accept-encoding":"gzip","accept-charset":"iso-8859-1,*,utf-8"}
 
 * Internet Explorer 2.1 Mac German
-  * Sends HTTP/1.1
-  * accept: "*/*, q=0.300, audio/wav, audio/x-wav, audio/aiff, audio/x-aiff, audio/basic, multipart/x-mixed-replace, text/url, text/plain, text/html"
-  * user-agent: "Mozilla/2.0 (compatible; MSIE 2.1; Mac_68000)"
+  * Sends HTTP/1.0
+  * {"accept":"*/*, q=0.300, audio/wav, audio/x-wav, audio/aiff, audio/x-aiff, audio/basic, multipart/x-mixed-replace, text/url, text/plain, text/html","user-agent":"Mozilla/2.0 (compatible; MSIE 2.1; Mac_68000)","accept-language":"de","host":"milk.com","if-modified-since":"Fri, 19 Apr 2019 22:05:30 GMT","pragma":"no-cache"}
+
+* Internet Explorer 4.01 Mac
+  * Sends HTTP/1.0
+  * {"host":"apple.com","accept":"image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/xbm, image/x-jg, */*","accept-language":"en","proxy-connection":"Keep-Alive","user-agent":"Mozilla/4.0 (compatible; MSIE 4.01; Mac_68000)","ua-os":"MacOS","ua-cpu":"68K","extension":"Security/Remote-Passphrase"}
 
 * Internet Explorer 5.0 (2022) Mac
   * Sends HTTP/1.0
