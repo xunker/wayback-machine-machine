@@ -49,4 +49,33 @@ describe("config", function () {
       expect(subject.imageColors).toBe(16);
     });
   });
+
+  describe('#configFromUserAgent', () => {
+    var subject = config();
+    beforeEach(() =>{
+      // spyOn(console, 'log');
+    });
+
+    describe('user agent match', () => {
+      it('matches Netscape 1.x', () => {
+        var spy = spyOn(subject, 'setNetscape1');
+        subject.configFromUserAgent('Mozilla/1.12(Macintosh; I; PPC)');
+        expect(spy).toHaveBeenCalled();
+      });
+
+      it('matches Netscape 2.x', () => {
+        var spy = spyOn(subject, 'setNetscape2');
+        subject.configFromUserAgent('Mozilla/2.0 (Macintosh; I; PPC)');
+        expect(spy).toHaveBeenCalled();
+      });
+    });
+
+    describe('no user agent match', () => {
+      it('emits warning', () => {
+        var spy = spyOn(console, 'log');
+        subject.configFromUserAgent('UNKNOWN AGENT');
+        expect(spy).toHaveBeenCalledWith('No match for user agent: ', 'UNKNOWN AGENT');
+      });
+    });
+  });
 });

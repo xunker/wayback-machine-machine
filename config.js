@@ -1,7 +1,6 @@
 'use strict';
-// maybe https://flaviocopes.com/how-to-merge-objects-javascript/
-module.exports = function(yargs) {
 
+module.exports = function(yargs) {
   if (!yargs)
     yargs = require('yargs');
 
@@ -29,15 +28,21 @@ module.exports = function(yargs) {
     .alias('v', 'debug')
     .argv;
 
+  var log = require('./lib/log').init(args.debug).log;
+
   args.date = args.date.replace(/-/g, '');
 
-  if (parseInt(args.imageColors) > 0) {
-    args.imageColors = parseInt(args.imageColors);
-  } else {
-    args.imageColors = 0;
+  args.setImageColors = (colors) => {
+    colors = colors || args.imageColors;
+    if (parseInt(colors) > 0) {
+      args.imageColors = parseInt(colors);
+    } else {
+      args.imageColors = 0;
+    }
   }
 
-  if (args.netscape1) {
+  args.setNetscape1 = ()=> {
+    log('Setting Netscape 1.x mode');
     args.ignoreUserAgent = true;
     args.ignoreHttpVersion = true;
     args.http1 = true;
@@ -48,7 +53,8 @@ module.exports = function(yargs) {
       args.imageColors = 16;
   }
 
-  if (args.netscape2) {
+  args.setNetscape2 = () => {
+    log('Setting Netscape 2.x mode');
     args.ignoreUserAgent = true;
     args.ignoreHttpVersion = true;
     args.simplifyContentType = true;
@@ -56,6 +62,60 @@ module.exports = function(yargs) {
     if (!args.imageColors)
       args.imageColors = 16;
   }
+
+  args.setImageColors();
+
+  if (args.netscape1)
+    args.setNetscape1();
+
+  if (args.netscape2)
+    args.setNetscape2();
+
+  /**
+   * Choose appropriate settings based on user agent
+   *
+   * @param {String} userAgent The HTTP_USER_AGENT string from the browser
+   */
+  args.configFromUserAgent = (userAgent) => {
+    userAgent = userAgent.trim();
+
+    var userAgents = [
+      [/^Mozilla\/1\.\d+/, 'Netscape 1.x', args.setNetscape1],
+      [/^Mozilla\/2\.\d+/, 'Netscape 2.x', args.setNetscape2]
+    ]
+
+    var agentDetected = false;
+    userAgents.forEach(function (ua) {
+      if (userAgent.match(ua[0])) {
+        log('User Agent configuration detected: "' + ua[1] + '"');
+        agentDetected = true;
+        return ua[2]();
+      }
+    });
+
+    if (!agentDetected)
+      console.log('No match for user agent: "' + userAgent + '"');
+  }
+
+  /**
+   * Choose appropriate settings based on request object. Will also call
+   * configFromUserAgent().
+   *
+   * @param {IncomingMessage} req The incomming request from the browser
+   */
+  args.configFromRequest = (req) => {
+    if (!args.ignoreHttpVersion) {
+      if (req.httpVersion == '1.0') {
+        log('Automatic request configation detected HTTP/1.0');
+        args.http1 = true;
+      }
+    }
+
+    if (!args.ignoreUserAgent) {
+      args.configFromUserAgent(req.headers['user-agent']);
+    }
+  }
+
 
   return args;
 }
