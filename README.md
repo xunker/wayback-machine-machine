@@ -70,6 +70,7 @@ Old Browser/Computer support (Netscape 1.0, HTTP/1.0)
   * [ ] Command line switch
   * [ ] User Agent detection?
 * [ ] Set image color change via CLI
+* [ ] Even though the API says there is not a close match (`http://archive.org/wayback/available?url=web.archive.org/web/19961102075439/http://www.uvol.com/www1st&timestamp=19961102`), going to the URL to a page will often redirect you to one that is close. On our 404 page, add an link to go to the bare url (`web.archive.org/web/19961102075439/http://www.uvol.com/www1st`) and let the Wayback machine send a 302 to the nearest match (`http://web.archive.org/web/19961115122722im_/http://www.uvol.com/www1st/`)
 
 Nice-to-have
 ============

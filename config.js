@@ -24,6 +24,7 @@ module.exports = function(yargs) {
     .boolean('http1', 'Force HTTP/1.0 requests')
     .alias('verbose', 'debug')
     .alias('v', 'debug')
+    .boolean('no-cache', 'disable local caching, and add "pragma: no-cache" response headers')
     .argv;
 
   args.date = args.date.replace(/-/g, '');

@@ -44,3 +44,6 @@ Notes on Browsers
   accept-charset: "ISO-8859-1,utf-8;q=0.7,*;q=0.7"
   connection: "close"
   proxy-connection: "close"
+
+# JPGs
+http://web.archive.org/web/19961102075439im_/http://www.deseretbook.com/images/descov2.jpg
