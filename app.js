@@ -76,6 +76,8 @@ var removeWaybackDecoration = function (data, req, res) {
     console.log("====================");
     // remove the wayback machine js
     body = body.replace(/<head\>.+<!-- End Wayback Rewrite JS Include --\>/s, '<head>')
+    // in case target document doesn't have a <head> tag
+    body = body.replace(/<html\>.+<!-- End Wayback Rewrite JS Include --\>/s, '<head>')
   }
 
   // remove the wayback machine js

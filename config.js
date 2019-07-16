@@ -1,4 +1,5 @@
 'use strict';
+// maybe https://flaviocopes.com/how-to-merge-objects-javascript/
 module.exports = function(yargs) {
 
   if (!yargs)
@@ -10,21 +11,22 @@ module.exports = function(yargs) {
     .default('port', '4080')
     .default('date', '2006-03-01')
     .default('image-colors', undefined, "Reduce image color depth to this number")
-    .alias('image-colours', 'image-colors')
     .boolean('gif87a', "Convert all .gif images to GIF87a format")
     .boolean('debug', 'debug/verbose mode')
     .boolean('netscape1', 'Netscape 1.x Mode')
-    .alias('ns1', 'netscape1')
     .boolean('netscape2', 'Netscape 2.x Mode')
-    .alias('ns2', 'netscape2')
     .boolean('ignore-user-agent', 'Ignore client User Agent string for automatic config')
     .boolean('ignore-http-version', 'Ignore HTTP version header passed by client')
     .boolean('proxy-image-redirects', 'If image URL returns redirect, return image data instead of redirect response')
     .boolean('simplify-content-type', 'Simplify content-type response headers')
+    .boolean('resolve-missing', 'Attempt to resolve 404s by redirecting to the nearest snaphot')
     .boolean('http1', 'Force HTTP/1.0 requests')
+    .boolean('no-cache','disable local caching, and add "pragma: no-cache" response headers')
+    .alias('image-colours', 'image-colors')
+    .alias('ns1', 'netscape1')
+    .alias('ns2', 'netscape2')
     .alias('verbose', 'debug')
     .alias('v', 'debug')
-    .boolean('no-cache', 'disable local caching, and add "pragma: no-cache" response headers')
     .argv;
 
   args.date = args.date.replace(/-/g, '');
